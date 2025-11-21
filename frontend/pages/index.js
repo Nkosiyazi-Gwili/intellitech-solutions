@@ -1,27 +1,8 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
-import Services from '../components/Services';
-import About from '../components/About';
-import Contact from '../components/Contact';
-import Footer from '../components/Footer';
-import ErrorBoundary from '../components/ErrorBoundary';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-  console.log('Home page loaded');
-  // Test the API call directly
-    fetch('https://intellitech-solutions-backend.vercel.app/api/services')
-      .then(response => {
-        console.log('API Response status:', response.status);
-        return response.json();
-      })
-      .then(data => console.log('API Data:', data))
-      .catch(error => console.error('API Error:', error));
-  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -40,21 +21,22 @@ export default function Home() {
   }
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen">
-        <Head>
-          <title>IntelliTech Solutions | Intelligence Computing Services</title>
-          <meta name="description" content="Leading provider of software development, mobile apps, web development, and digital marketing solutions" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+    <div className="min-h-screen">
+      <Head>
+        <title>IntelliTech Solutions | Intelligence Computing Services</title>
+        <meta name="description" content="Leading provider of software development, mobile apps, web development, and digital marketing solutions" />
+      </Head>
 
-        <Header />
-        <Hero />
-        <Services />
-        <About />
-        <Contact />
-        <Footer />
+      {/* Test with minimal content first */}
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">
+        <div className="text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">IntelliTech Solutions</h1>
+          <p className="text-xl mb-8">Intelligent Computing Services</p>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform">
+            Get Started
+          </button>
+        </div>
       </div>
-    </ErrorBoundary>
+    </div>
   );
 }
