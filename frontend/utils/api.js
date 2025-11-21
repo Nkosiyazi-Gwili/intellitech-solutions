@@ -1,13 +1,7 @@
-const API_BASE_URL = process.env.API_URL || 'http://localhost:5000/api';
-
-// Helper function to get the full API URL
 const getApiUrl = (path) => {
-  // If we're in the browser, use relative path for same-domain API calls
-  if (typeof window !== 'undefined') {
-    return `/api${path}`;
-  }
-  // For server-side, use the full URL
-  return `${API_BASE_URL}${path}`;
+  // Use environment variable for API URL
+  const baseUrl = process.env.API_URL || 'https://intellitech-solutions-backend.vercel.app';
+  return `${baseUrl}/api${path}`;
 };
 
 export const api = {
