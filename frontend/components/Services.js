@@ -1,18 +1,31 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 export default function Services() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/services');
-        setServices(response.data);
+        setError(null);
+        // Use the deployed backend URL directly
+        const API_URL = 'https://intellitech-solutions-backend.vercel.app';
+        console.log('Fetching services from:', `${API_URL}/api/services`);
+        
+        const response = await fetch(`${API_URL}/api/services`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Services data received:', data);
+        setServices(data);
       } catch (error) {
         console.error('Error fetching services:', error);
-        // Fallback data
+        setError(error.message);
+        // Fallback to local data
         setServices([
           {
             id: 1,
@@ -53,8 +66,8 @@ export default function Services() {
 
   if (loading) {
     return (
-      <section id="services" className="section-padding bg-gray-50">
-        <div className="container-custom">
+      <section id="services" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
           <div className="text-center">Loading services...</div>
         </div>
       </section>
@@ -62,8 +75,8 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="section-padding bg-gray-50">
-      <div className="container-custom">
+    <section id="services" className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
@@ -72,24 +85,29 @@ export default function Services() {
           <p className="text-xl text-gray-600 leading-relaxed">
             Comprehensive technology solutions to drive your business forward with innovation and excellence.
           </p>
+          {error && (
+            <div className="mt-4 p-3 bg-yellow-100 border border-yellow-400 rounded text-yellow-700">
+              Note: Using demo data - {error}
+            </div>
+          )}
         </div>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <div 
-              key={service.id}
-              className="card p-8 group hover:bg-gradient-to-br hover:from-primary-50 hover:to-cyan-50 border border-gray-200"
+              key={service.id || index}
+              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
             >
               <div className="text-center space-y-6">
                 {/* Icon */}
-                <div className="text-6xl transform group-hover:scale-110 transition-transform duration-300">
+                <div className="text-6xl">
                   {service.icon}
                 </div>
 
                 {/* Content */}
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-gray-900">
                     {service.title}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -98,9 +116,9 @@ export default function Services() {
                   
                   {/* Features */}
                   <ul className="space-y-2">
-                    {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-primary-600 font-medium">
-                        <span className="w-2 h-2 bg-primary-600 rounded-full mr-3"></span>
+                    {service.features && service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-sm text-blue-600 font-medium">
+                        <span className="w-2 h-2 bg-blue-600 rounded-full mr-3"></span>
                         {feature}
                       </li>
                     ))}
@@ -108,25 +126,12 @@ export default function Services() {
                 </div>
 
                 {/* CTA Button */}
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform group-hover:scale-105">
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300">
                   Learn More
                 </button>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="card p-8 bg-gradient-to-r from-primary-600 to-cyan-600 text-white max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Business?</h3>
-            <p className="text-primary-100 mb-6">
-              Let's discuss how our services can help you achieve your goals.
-            </p>
-            <button className="bg-white text-primary-600 hover:bg-gray-100 font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
-              Start Your Project
-            </button>
-          </div>
         </div>
       </div>
     </section>
