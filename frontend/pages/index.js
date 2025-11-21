@@ -1,5 +1,11 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import About from '../components/About';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,18 +31,15 @@ export default function Home() {
       <Head>
         <title>IntelliTech Solutions | Intelligence Computing Services</title>
         <meta name="description" content="Leading provider of software development, mobile apps, web development, and digital marketing solutions" />
+        {/* Remove favicon or create one */}
       </Head>
 
-      {/* Test with minimal content first */}
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">IntelliTech Solutions</h1>
-          <p className="text-xl mb-8">Intelligent Computing Services</p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:scale-105 transition-transform">
-            Get Started
-          </button>
-        </div>
-      </div>
+      <Header />
+      <Hero />
+      <Services />
+      <About />
+      <Contact />
+      <Footer />
     </div>
   );
 }
