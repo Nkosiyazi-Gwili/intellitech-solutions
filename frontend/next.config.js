@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // If you're using static export
-  trailingSlash: true,
-  distDir: '.next',
-  // Add if using static export
+  // Remove 'output: export' if you have it - this causes issues with SSR
+  trailingSlash: false,
+  // Enable if you need static optimization
   images: {
     unoptimized: true
   }
